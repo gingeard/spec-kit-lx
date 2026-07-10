@@ -1,0 +1,26 @@
+# Пример GitHub Actions job — гейт release notes в стиле Leadaxe.
+# Встраивается в существующий release-workflow ПЕРЕД созданием релиза, чтобы
+# сборка падала, если для тега нет docs/release_notes/<slug>.md (или он пустой).
+#
+# Скопируй job в .github/workflows/*.yml проекта (или добавь step в job release).
+
+name: release-notes-gate
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release-notes-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # нужны теги для git describe (fallback)
+      - name: Release notes present for tag
+        run: |
+          bash .specify/extensions/lx/scripts/bash/check-release-notes.sh "${GITHUB_REF_NAME}"
+        # RELEASE_NOTES_DIR можно переопределить, если каталог нестандартный:
+        # env:
+        #   RELEASE_NOTES_DIR: docs/release_notes

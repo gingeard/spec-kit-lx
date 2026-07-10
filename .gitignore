@@ -1,0 +1,22 @@
+# Reference clones (studied during design; NOT part of this repo)
+/singbox-launcher/
+/sing-box-lx/
+/spec-kit/
+
+# Python venv used for CLI verification
+.venv-verify/
+*.venv/
+__pycache__/
+
+# Release artifacts
+/dist/
+*.zip
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Local MCP config
+.mcp.json

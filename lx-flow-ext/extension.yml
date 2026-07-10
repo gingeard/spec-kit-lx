@@ -1,0 +1,56 @@
+# lx-flow-ext — расширение Spec Kit
+# Добавляет НОВЫЕ артефакты/фазы, которых нет в ядре Spec Kit и которые нельзя
+# получить одними preset-overrides: отчёт о реализации, ритуал закрытия задачи,
+# накопитель release notes, проверка трассируемости spec↔code.
+#
+# Extensions добавляют команды в собственном namespace speckit.lx.* и вешают
+# фазовые hooks — то есть расширяют жизненный цикл, не переопределяя core-цепочку.
+
+schema_version: "1.0"
+
+extension:
+  id: "lx"
+  name: "LX Flow"
+  version: "1.0.0"
+  description: "Отчёт о реализации, ритуал закрытия, release notes, проверка трассируемости spec↔code."
+  author: "Leadaxe + gingeard"
+  license: "MIT"
+  category: "workflow"
+  # read-write: команда close пишет implementation_report.md и docs/release_notes/upcoming.md
+  effect: "read-write"
+
+requires:
+  speckit_version: ">=0.11.0"
+
+provides:
+  commands:
+    - name: "speckit.lx.report"
+      file: "commands/report.md"
+      description: "Сгенерировать implementation_report.md по диффу и tasks.md."
+      aliases: ["report"]
+    - name: "speckit.lx.close"
+      file: "commands/close.md"
+      description: "Ритуал закрытия: отчёт → release notes → статус SPEC → трассировка."
+      aliases: ["close"]
+    - name: "speckit.lx.trace"
+      file: "commands/trace.md"
+      description: "Трассируемость код↔SPEC, SPEC↔SPEC; дыры покрытия (тест: —), опц. --stubs (red-phase заглушки)."
+      aliases: ["trace"]
+    - name: "speckit.lx.retrospec"
+      file: "commands/retrospec.md"
+      description: "Ретроспецировать существующий код: обратный проход код→SPEC (Status=Complete) для одного слота."
+      aliases: ["retrospec"]
+    - name: "speckit.lx.audit"
+      file: "commands/audit.md"
+      description: "Аудит существующего кода по срезу: severity-findings (P0–P3) + обязательное «опровергнуто верификацией»."
+      aliases: ["audit"]
+
+hooks:
+  # После реализации — предложить запустить ритуал закрытия.
+  after_implement:
+    command: "speckit.lx.close"
+    optional: true
+    prompt: "Реализация завершена. Запустить ритуал закрытия LX (/speckit.lx.close)?"
+    description: "Проводит задачу через отчёт, release notes, статус и проверку трассировки."
+
+tags: ["lx", "release-notes", "traceability", "closing-ritual"]

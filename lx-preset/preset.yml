@@ -1,0 +1,101 @@
+# LX preset for GitHub Spec Kit
+# Воспроизводит методологию Leadaxe (singbox-launcher) поверх ядра Spec Kit
+# БЕЗ форка: только официальные точки расширения (preset overrides).
+#
+# Проверено против specify-cli 0.12.7 (2026-07-07).
+# Устанавливается: specify preset add --dev ./lx-preset --priority 10
+
+schema_version: "1.0"
+
+preset:
+  id: "lx"
+  name: "LX SDD"
+  version: "1.0.0"
+  description: >
+    Методология Leadaxe: спецификация как живой документ и слой документации,
+    архитектурные инварианты, строгий scope-контроль, ритуал закрытия задачи,
+    трассируемость spec↔code, билингвальность по ролям (RU-проза / EN-код).
+  author: "Leadaxe + gingeard"
+  license: "MIT"
+
+requires:
+  # Резолвер шаблонов и стратегия wrap стабильны с ранних 0.x; фиксируем нижнюю границу
+  # проверенной версии. Верхнюю границу НЕ ставим — mint обновлений Spec Kit безопасен,
+  # потому что мы только переопределяем контент, а не имена артефактов.
+  speckit_version: ">=0.11.0"
+
+provides:
+  templates:
+    # --- Артефакты (переопределение содержимого core-шаблонов) ---
+    - type: "template"
+      name: "spec-template"
+      file: "templates/spec-template.md"
+      replaces: "spec-template"
+      strategy: "replace"
+      description: "SPEC: проблема → инварианты → критерии → связи; мета-шапка Status/Type/Depends/Bump."
+
+    - type: "template"
+      name: "plan-template"
+      file: "templates/plan-template.md"
+      replaces: "plan-template"
+      strategy: "replace"
+      description: "PLAN: изменяемые/новые файлы, ключевые решения, фазы (каждая оставляет ветку зелёной), Constitution Check."
+
+    - type: "template"
+      name: "tasks-template"
+      file: "templates/tasks-template.md"
+      replaces: "tasks-template"
+      strategy: "replace"
+      description: "TASKS: чеклист по фазам + обязательная фаза «Закрытие» (отчёт, release notes, статус, трассировка)."
+
+    - type: "template"
+      name: "constitution-template"
+      file: "templates/constitution-template.md"
+      replaces: "constitution-template"
+      strategy: "replace"
+      description: "Constitution: приоритеты, архитектурные инварианты (нельзя нарушать), запреты, governance жизненного цикла спеков."
+
+    - type: "template"
+      name: "checklist-template"
+      file: "templates/checklist-template.md"
+      replaces: "checklist-template"
+      strategy: "replace"
+      description: "Definition of Done в стиле IMPLEMENTATION_PROMPT: сборка/тесты/vet, качество, scope, ресурсы."
+
+    - type: "template"
+      name: "agent-file-template"
+      file: "templates/agent-file-template.md"
+      replaces: "agent-file-template"
+      strategy: "replace"
+      description: "Постоянный контекст агента: философия разработки, scope, git-ограничение, контракт выхода, язык по ролям."
+
+    # Аддитивный шаблон (не переопределяет core): жанр Q/аудит по образцу sing-box-lx/022.
+    - type: "template"
+      name: "audit-spec-template"
+      file: "templates/audit-spec-template.md"
+      strategy: "replace"
+      description: "AUDIT-SPEC: severity-findings (P0–P3) + обязательный раздел «Опровергнуто верификацией» (adversarial)."
+
+    # Аддитивный: вынесенные инварианты (invariants.md) — таблица-тест-матрица, когда инвариантов ≥3.
+    - type: "template"
+      name: "invariants-template"
+      file: "templates/invariants-template.md"
+      strategy: "replace"
+      description: "INVARIANTS: машинно-читаемая матрица инвариантов (утверждение·код·тест·провенанс·маркер) + дыры покрытия."
+
+    # --- Команды (обёртка core-промптов, а не замена: сохраняем поведение ядра) ---
+    - type: "command"
+      name: "speckit.specify"
+      file: "commands/specify.md"
+      replaces: "speckit.specify"
+      strategy: "wrap"
+      description: "Добавляет к /specify правила Leadaxe: инварианты, non-goals, «одна фича — один SPEC», статус во front-matter."
+
+    - type: "command"
+      name: "speckit.implement"
+      file: "commands/implement.md"
+      replaces: "speckit.implement"
+      strategy: "wrap"
+      description: "Добавляет к /implement философию (минимальный дифф, удаление — результат), DoD, git-ограничение, контракт выхода."
+
+tags: ["methodology", "lx", "invariants", "traceability", "ru-en"]
