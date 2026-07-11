@@ -53,7 +53,7 @@
   /speckit.lx.close (расширение lx-flow-ext).
 -->
 
-- [ ] Инварианты (`invariants.md`) подтверждены; маркеры `// SPEC [NNN]` проставлены в коде (PLAN §14 → placed)
+- [ ] Инварианты (SPEC «Инварианты») подтверждены guard-тестами `test_specNNN_invM_*`; матрица без ☐planned/дыр
 - [ ] Заполнен `implementation_report.md` (итог, изменения, решения, проверки, безопасность)
 - [ ] Обновлён `docs/release_notes/upcoming.md` (EN Highlights + RU Основное) со ссылкой на SPEC [NNN]
 - [ ] При изменении архитектуры/потоков — обновлён `docs/ARCHITECTURE.md`
