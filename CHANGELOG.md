@@ -3,6 +3,16 @@
 All notable changes to the LX preset + extension for Spec Kit.
 Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- **Commit convention** (`docs/COMMIT_CONVENTION.md`): Conventional Commits + spec reference at the
+  end of the subject — `type(area): subject SPEC-NNN (Phase N)`. Chosen so `git log --oneline` shows
+  which spec a commit belongs to at a glance (footer trailers aren't visible there); `SPEC-` prefix
+  avoids collision with GitHub `#N` issue autolinks. Wired into `/speckit.lx.close` (commit step) and
+  the `agent-file` template (propagates to consumer projects). Optional `commitlint` enforcement via
+  `references-empty` + `issuePrefixes: ['SPEC-']`.
+
 ## [1.0.0] — 2026-07-10
 
 Initial public release. Verified against `specify-cli` 0.12.7 / 0.12.8.dev0.
