@@ -76,13 +76,6 @@ provides:
       strategy: "replace"
       description: "AUDIT-SPEC: severity-findings (P0–P3) + обязательный раздел «Опровергнуто верификацией» (adversarial)."
 
-    # Аддитивный: вынесенные инварианты (invariants.md) — таблица-тест-матрица, когда инвариантов ≥3.
-    - type: "template"
-      name: "invariants-template"
-      file: "templates/invariants-template.md"
-      strategy: "replace"
-      description: "INVARIANTS: машинно-читаемая матрица инвариантов (утверждение·код·тест·провенанс·маркер) + дыры покрытия."
-
     # --- Команды (обёртка core-промптов, а не замена: сохраняем поведение ядра) ---
     - type: "command"
       name: "speckit.specify"

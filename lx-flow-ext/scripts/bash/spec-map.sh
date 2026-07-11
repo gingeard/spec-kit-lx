@@ -42,14 +42,10 @@ for d in "$SPECS_DIR"/[0-9][0-9][0-9]-*/; do
   # front-matter
   typ="$(grep -m1 '^\*\*Type:\*\*' "$f" | grep -oE '\(([FBRQ])\)' | tr -d '()' || true)"
   status="$(grep -m1 '^\*\*Status:\*\*' "$f" | sed 's/^\*\*Status:\*\* *//; s/ *[—-].*$//; s/\*\*//g' | cut -c1-24)"
-  # INV: индекс в spec.md, иначе матрица invariants.md
-  inv="$(grep -cE '^- (\*\*)?INV[0-9]' "$f" || true)"
-  if [ "${inv:-0}" -eq 0 ] && [ -f "$d/invariants.md" ]; then
-    inv="$(grep -cE '^\| *INV?[0-9]+ *\||^- \*\*INV[0-9]' "$d/invariants.md" || true)"
-  fi
-  # дыры покрытия (эвристика): «тест: —», «| — » в колонке Тест, 🔴
-  holes=0
-  [ -f "$d/invariants.md" ] && holes="$(grep -cE 'тест: —|\| *— *\(|\| *— *\||🔴' "$d/invariants.md" || true)"
+  # INV: блоки в секции «Инварианты» spec.md (v4.3: «**INVn — …**»)
+  inv="$(grep -cE '^\*\*INV[0-9]' "$f" || true)"
+  # дыры покрытия: число перед 🔴/— в строке «Покрытие: N ✓ · M —» секции «Инварианты»
+  holes="$(grep -m1 'Покрытие:' "$f" | grep -oE '· *[0-9]+ *(🔴|—)' | grep -oE '[0-9]+' | head -1 || true)"
   printf '| [%s](%s/spec.md) | %s | %s | %s | %s | %s |\n' \
     "$nnn" "$(basename "$d")" "$title" "${typ:-—}" "${status:-—}" "${inv:-0}" "${holes:-0}" >> "$tmp"
   # рёбра зависимостей из строки Depends on. Номера — любые NNN (корпус может быть 100+),
@@ -65,7 +61,7 @@ done
 
 {
   echo
-  echo "\* дыры — эвристика: записи с \`тест: —\`/🔴 в invariants.md."
+  echo "\* дыры — из строки «Покрытие: N ✓ · M —/🔴» секции «Инварианты» spec.md."
   echo
   echo "## Граф зависимостей"
   echo
