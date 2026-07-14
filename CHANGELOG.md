@@ -5,6 +5,23 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added — v4.4: enforcement ladder graduates to templates (preset 1.1.0 / extension 1.1.0)
+- **`plan-template.md`**: «Инвариант-контроль» — enforcement type annotation on `Тест:`
+  (`скан|символ|поведение|property|stateful|процедура`; scan on a money-moving Shipped invariant
+  reads as an upgrade candidate, not a norm); «Ключевые решения» — upstream-canon is a mandatory
+  Option in Decision blocks (precedent: a 3-strategy refactor nearly won before the framework's
+  own test_kit was checked).
+- **`checklist-template.md` + `tasks-template.md` + `implement`/`close` commands**: mutation-check
+  discipline — every NEW guard test is accepted only after an inverted invariant turns it red
+  (fact recorded in the implementation report). Field-testing on SPEC 020 caught two decorative
+  guards this way (a lint wrapper that silently exited 0; a vacuous stateful machine).
+- **`constitution-template.md`**: no-tweaking principle — a failing guard is fixed in code;
+  weakening a predicate/contract only via an explicit SPEC «Инварианты» edit.
+- **`spec-template.md`**: closed coverage-gap vocabulary (`тест planned` / `процедура` /
+  `косвенный guard`); **`trace.md`** reads both the type annotations and the gap vocabulary,
+  stays backward-compatible with pre-v4.4 specs (untyped entries treated as before).
+- Rationale and graduation evidence: `docs/ENFORCEMENT_LADDER.md` (status: released v4.4).
+
 ### Research
 - **Enforcement ladder** (`docs/ENFORCEMENT_LADDER.md`): invariant-enforcement strength levels
   (scan-pin → symbol anchor → behavioral → property/stateful → structural → types) + companion
