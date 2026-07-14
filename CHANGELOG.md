@@ -5,6 +5,13 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Research
+- **Enforcement ladder** (`docs/ENFORCEMENT_LADDER.md`): invariant-enforcement strength levels
+  (scan-pin → symbol anchor → behavioral → property/stateful → structural → types) + companion
+  disciplines (mutation-check for new guards, no-tweaking rule, upstream-canon option, closed
+  coverage-gap vocabulary). Five template candidates listed with graduation criteria; field-testing
+  on polymarket-experiments (SPEC 020) before landing in `lx-preset`/`lx-flow-ext`.
+
 ### Fixed
 - **`/speckit.lx.trace`** now resolves `PLAN.Код: file:symbol` — greps the target file for the
   symbol's `def`/`class` and FAILs if it's missing (renamed/removed since the PLAN entry was
