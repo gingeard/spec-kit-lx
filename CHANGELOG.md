@@ -5,6 +5,17 @@ Format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Fixed
+- **`/speckit.lx.trace`** now resolves `PLAN.Код: file:symbol` — greps the target file for the
+  symbol's `def`/`class` and FAILs if it's missing (renamed/removed since the PLAN entry was
+  written). Previously trace only checked `Тест:` existed by name; it never verified the code side
+  of the link, so a stale `Код:` reference could rot silently and no diff would surface it. Also
+  checks the named guard test's body actually references the claimed symbol (WARN, not FAIL, if not
+  — a test may legitimately exercise the invariant through a higher-level entry point). Closes the
+  gap identified after D10/D14 (in-code `// SPEC NNN invariant:` marker comments removed —
+  traceability now rests entirely on `PLAN.Код` + `test_specNNN_invM_*` naming, which had no
+  automated verification).
+
 ### Added
 - **Commit convention** (`docs/COMMIT_CONVENTION.md`): Conventional Commits + spec reference at the
   end of the subject — `type(area): subject SPEC-NNN (Phase N)`. Chosen so `git log --oneline` shows
