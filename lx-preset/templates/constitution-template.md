@@ -83,10 +83,11 @@
 - **Формат коммит-сообщений.** Conventional Commits (`type(scope): subject`); subject и body —
   на английском (технические идентификаторы и цитаты из SPEC — как есть); коммит, реализующий
   или правящий SPEC, несёт суффикс `SPEC-0NN` в subject
-  (напр. `feat(infra): scoped no-Delete IAM user SPEC-022`). Merge-коммиты освобождены.
+  (напр. `feat(infra): scoped no-Delete IAM user SPEC-022`).
 - **Ветки по умолчанию ребейзятся.** Feature-ветка обновляется `git rebase main` (линейная
-  история поверх main), НЕ merge'ем main в ветку. Merge-коммит допустим при интеграции ветки
-  в main. Push переписанной ветки — только `--force-with-lease`.
+  история поверх main), НЕ merge'ем main в ветку. Интеграция в main — только fast-forward
+  ребейзнутой ветки; merge-коммиты не используются. Push переписанной ветки — только
+  `--force-with-lease`.
 
 ---
 *Constitution имеет приоритет над всеми прочими практиками. Поправки — через /speckit.constitution с bump версии.*
